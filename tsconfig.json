@@ -1,0 +1,46 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "declaration": true,
+    "strict": true,
+    "baseUrl": ".",
+    "outDir": "dist",
+    "sourceMap": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "forceConsistentCasingInFileNames": true,
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "types": [
+      "node",
+      "jest",
+      "@types/react",
+      "@testing-library/jest-dom"
+    ],
+    "paths": {
+      "@/*": [ "src/*" ]
+    },
+    "lib": ["es2020", "dom", "esnext"]
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.d.ts"
+  ],
+  "exclude": [
+    "./src/stories",
+    "./src/**/*.stories.*",
+    "./src/**/tests",
+    "./src/**/*.test.ts",
+    "./src/setup-tests.ts"
+  ]
+}
