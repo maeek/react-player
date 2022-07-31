@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { useControls } from './hooks/useControls';
 import { BufferedChunks, PlayerContextType, PlayerProvider, VideoDimensions } from './context';
-import { listenToEvent } from './eventUtil';
+import { listenToEvent } from '../utils/eventUtil';
 import './player.scss';
 
 export interface PlayerProps {
