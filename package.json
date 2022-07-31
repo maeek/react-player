@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/maeek/neutrino-design.git"
+    "url": "https://github.com/maeek/react-player.git"
   },
   "main": "index.js",
   "dependencies": {
