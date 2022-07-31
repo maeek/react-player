@@ -1,0 +1,22 @@
+@use '../../styles/main' as *;
+
+.#{$prefix} {
+  &-player-timestamp {
+    @include box-sizing;
+    @include default-font;
+    display: flex;
+    align-items: center;
+
+    color: #ddd;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    vertical-align: top;
+    text-shadow: 0 0 2px rgb(0 0 0 / 50%);
+
+    &-divider {
+      font-weight: 400;
+      padding: 0 0.2rem;
+    }
+  }
+}

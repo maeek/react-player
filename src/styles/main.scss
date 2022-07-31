@@ -1,0 +1,191 @@
+@use 'colors' as *;
+@use 'typo' as *;
+
+$prefix: 'ne';
+
+@function get-color($color, $shade, $map: $colors) {
+  @if map-has-key($map, $color) {
+    $shades: map-get($map, $color);
+
+    @if map-has-key($shades, $shade) {
+      @return var(--#{$prefix}-clr-#{$color}-#{$shade}, #{map-get($shades, $shade)});
+    }
+  }
+
+  @return null;
+}
+
+@mixin box-sizing($sizing: border-box) {
+  box-sizing: $sizing;
+  &,
+  & *,
+  &::after,
+  & *::after,
+  &::before,
+  & *::before {
+    box-sizing: $sizing;
+  }
+}
+
+@mixin load-colors() {
+  @each $color, $shades in $colors {
+    @each $shade, $value in $shades {
+      --#{$prefix}-clr-#{$color}-#{$shade}: #{$value};
+    }
+  }
+}
+
+@mixin load-fonts() {
+  @each $size, $value in $font-sizes {
+    --#{$prefix}-fs-#{$size}: #{$value};
+  }
+}
+
+@mixin default-font {
+  font-family: $font-family;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin mono-font {
+  font-family: 'Roboto Mono', monospace !important;
+}
+
+@function get-font-size($size: 400, $map: $font-sizes) {
+  @if map-has-key($map, $size) {
+    @return var(--#{$prefix}-fs-#{$size}, map-get($map, $size));
+  }
+
+  @return null;
+}
+
+@mixin custom-scroll(
+  $width: 0.5rem,
+  $height: 0.5rem,
+  $thumbColor: get-color('primary', 300),
+  $trackColor: get-color('primary', 600)
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $height;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $trackColor;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumbColor;
+  }
+}
+
+@mixin pseudo($location: 'after', $position: 'relative', $content: '') {
+  position: relative;
+
+  &::#{$location} {
+    content: $content;
+    position: $position;
+    @content;
+  }
+}
+
+@mixin flexbox(
+  $display: flex,
+  $direction: row,
+  $placeContent: null,
+  $placeItems: null,
+  $wrap: nowrap,
+  $shrink: null,
+  $grow: null,
+  $flex: null,
+  $alignContent: null,
+  $justifyContent: null,
+  $alignItems: null,
+  $justifyItems: null
+) {
+  display: $display;
+  flex-direction: $direction;
+
+  @if $placeContent == null {
+    @if $alignContent {
+      align-content: $alignContent;
+    }
+    @if $justifyContent {
+      justify-content: $justifyContent;
+    }
+  } @else {
+    place-content: $placeContent;
+  }
+
+  @if $placeItems == null {
+    @if $alignItems {
+      align-items: $alignItems;
+    }
+    @if $justifyItems {
+      justify-items: $justifyItems;
+    }
+  } @else {
+    place-items: $placeItems;
+  }
+
+  flex-wrap: $wrap;
+  flex-shrink: $shrink;
+  flex-grow: $grow;
+  flex: $flex;
+}
+
+@mixin animation($name, $duration: 1000ms, $iterations: infinite, $timing-function: ease, $delay: 0ms) {
+  -webkit-animation: $name $duration $iterations $timing-function $delay;
+  -moz-animation: $name $duration $iterations $timing-function $delay;
+  -o-animation: $name $duration $iterations $timing-function $delay;
+  animation: $name $duration $iterations $timing-function $delay;
+}
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  height: auto;
+
+  &:before {
+    display: block;
+    content: '';
+    width: 100%;
+    padding-top: calc(($height / $width) * 100%);
+  }
+
+  & > video,
+  & > img {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@mixin scrimGradient($startColor: #000, $direction: 'to bottom') {
+  $scrimCoordinates: (
+    0: 1,
+    19: 0.738,
+    34: 0.541,
+    47: 0.382,
+    56.5: 0.278,
+    65: 0.194,
+    73: 0.126,
+    80.2: 0.075,
+    86.1: 0.042,
+    91: 0.021,
+    95.2: 0.008,
+    98.2: 0.002,
+    100: 0,
+  );
+  $hue: hue($startColor);
+  $saturation: saturation($startColor);
+  $lightness: lightness($startColor);
+  $stops: ();
+  @each $colorStop, $alphaValue in $scrimCoordinates {
+    $stop: hsla($hue, $saturation, $lightness, $alphaValue) percentage($colorStop/100);
+    $stops: append($stops, $stop, comma);
+  }
+  background: linear-gradient(unquote($direction), $stops);
+}

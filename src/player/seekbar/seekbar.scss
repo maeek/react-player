@@ -1,0 +1,106 @@
+@use '../../styles/main' as *;
+
+.#{$prefix} {
+  &-player {
+    &-seek-bar {
+      position: relative;
+      width: 100%;
+      height: auto;
+
+      &-progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 0.25rem;
+        width: 100%;
+        border-radius: 0.1rem;
+        background-color: #00adee;
+        transition: transform 0.1s cubic-bezier(0.4, 0, 1, 1); //transform 0.1s;
+        transform-origin: center left;
+        transform: scaleX(var(--width, 0));
+
+        &:hover {
+          transform: scaleX(var(--width, 0)) scaleY(2.5) !important;
+        }
+      }
+
+      &-thumb {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 0.8rem;
+        height: 0.8rem;
+        background-color: #00adee;
+        border-radius: 50%;
+        transform: translateX(calc(var(--left, 0) - 0.4rem)) translateY(-50%) scale(0);
+        transition: transform 0.1s cubic-bezier(0.4, 0, 1, 1);
+      }
+
+      &-buffered {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 0.25rem;
+        width: 100%;
+
+        &-range {
+          position: absolute;
+          top: 0;
+          background-color: rgba(255, 255, 255, 0.4);
+          height: 100%;
+          width: 100%;
+          transform: translateX(var(--left, 0)) scaleX(var(--width, 0));
+          transform-origin: center left;
+          transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+      }
+
+      &-timeline {
+        position: relative;
+        height: 0.25rem;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 0.1rem;
+        transform-origin: center;
+        transition: all 0.1s cubic-bezier(0.4, 0, 1, 1);
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 400%;
+          width: 100%;
+          transform: translateY(-50%);
+          pointer-events: painted;
+        }
+      }
+
+      &:hover > &-timeline {
+        transform: scaleY(2);
+        border-radius: 0.05rem;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      &:hover > &-progress {
+        transform: scaleX(var(--width, 0)) scaleY(2);
+        border-radius: 0.05rem;
+      }
+
+      &:hover > &-thumb,
+      .ne-player-controls--seeking &-thumb {
+        transform: translateX(calc(var(--left, 0) - 0.4rem)) translateY(-50%) scale(1.2);
+        box-shadow: 0 0 0.1rem rgb(0 0 0 / 30%);
+      }
+
+      &:hover > &-buffered &-buffered-range {
+        transform: translateX(var(--left, 0)) scaleX(var(--width, 0)) scaleY(2);
+        border-radius: 0.05rem;
+      }
+
+      &--seeking * {
+        transition: none !important;
+      }
+    }
+  }
+}

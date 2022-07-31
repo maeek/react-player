@@ -1,0 +1,27 @@
+@use '../../styles/main' as *;
+
+.#{$prefix} {
+  &-player-button {
+    &-volume {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+
+      &-slider {
+        margin: 0;
+        margin-left: 0.5rem;
+        width: 0;
+        min-width: 0;
+        height: 0.3rem;
+        background-color: get-color('basic', 300);
+        border-radius: 0.2rem;
+        transition: width 0.1s, margin 0.1s;
+      }
+
+      &:hover &-slider {
+        width: 4rem;
+        margin-right: 0.2rem;
+      }
+    }
+  }
+}
