@@ -31,7 +31,7 @@ export const VideoRenderer = ({ interactive, ...rest }: VideoRendererProps) => {
     } as CSSProperties
     : undefined;
 
-  return mediaElement.current instanceof HTMLVideoElement && (
+  return mediaElement.current instanceof HTMLVideoElement ? (
     <div
       className={classNames(
         'ne-player-renderer',
@@ -67,5 +67,5 @@ export const VideoRenderer = ({ interactive, ...rest }: VideoRendererProps) => {
         )
       }
     </div>
-  );
+  ) : <></>;
 };

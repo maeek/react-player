@@ -1,3 +1,4 @@
+import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 import { FullscreenButton, PictureInPictureButton, PlayButton, VolumeButton } from './buttons/';
 import { InfoButton } from './buttons/Info';
@@ -8,7 +9,7 @@ import { SeekBar } from './seekbar';
 import { Timestamp } from './timestamp';
 
 export default {
-  title: 'Components/Player/Player',
+  title: 'Player',
   component: PlayerComponent
 } as Meta;
 

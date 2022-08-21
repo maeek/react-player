@@ -26,7 +26,7 @@ export const PictureInPictureButton = ({ size = 'medium', showLabel, labelPositi
     </div>
   );
 
-  return canPlay && (
+  return canPlay ? (
     <button className={classes} onClick={() => {
       if (mediaElement.current instanceof HTMLVideoElement) {
         mediaElement.current.requestPictureInPicture();
@@ -35,5 +35,5 @@ export const PictureInPictureButton = ({ size = 'medium', showLabel, labelPositi
       {btn}
       {showLabel && label}
     </button>
-  );
+  ) : <></>;
 };
