@@ -2,7 +2,7 @@ import { create } from '@storybook/theming';
 
 export default create({
   base: 'dark',
-  brandTitle: 'Neutrino Design',
+  brandTitle: '@maeek/react-player',
   brandUrl: 'https://github.com/maeek/react-player.git',
   brandImage: '',
   appBg: '#22262b',
