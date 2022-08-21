@@ -12,7 +12,6 @@ import './player.scss';
 
 export interface PlayerProps {
   children: React.ReactNode;
-  mediaElement?: 'video' | 'audio';
   url: string;
   autoPlay?: boolean;
   preload?: 'none' | 'metadata' | 'auto';
@@ -25,17 +24,16 @@ export interface PlayerProps {
   keyboardControl?: boolean;
   onLoadedData?:  (...args: unknown[]) => void;
   onLoadedMetadata?: (...args: unknown[]) => void;
-  // onReadyToPlay: (...args: unknown[]) => void;
-  onTimeUpdate: (...args: unknown[]) => void;
-  onCanPlay: (...args: unknown[]) => void;
-  onEnd: (...args: unknown[]) => void;
-  onError: (...args: unknown[]) => void;
-  onProgress: (buffered: number, ...args: unknown[]) => void;
-  onPlay: (...args: unknown[]) => void;
-  onPause: (...args: unknown[]) => void;
-  onVolumeChange: (volume: number, ...args: unknown[]) => void;
-  onFullscreenChange: (fullscreen: boolean, ...args: unknown[]) => void;
-  getNodeElement: (element: HTMLVideoElement | HTMLAudioElement) => void;
+  onTimeUpdate?: (...args: unknown[]) => void;
+  onCanPlay?: (...args: unknown[]) => void;
+  onEnd?: (...args: unknown[]) => void;
+  onError?: (...args: unknown[]) => void;
+  onProgress?: (buffered: number, ...args: unknown[]) => void;
+  onPlay?: (...args: unknown[]) => void;
+  onPause?: (...args: unknown[]) => void;
+  onVolumeChange?: (volume: number, ...args: unknown[]) => void;
+  onFullscreenChange?: (fullscreen: boolean, ...args: unknown[]) => void;
+  getNodeElement?: (element: HTMLVideoElement | HTMLAudioElement) => void;
 }
 
 export const Player = (props: PlayerProps) => {
@@ -49,8 +47,8 @@ export const Player = (props: PlayerProps) => {
     aspectRatio,
     forceAspectRatio,
     playbackRate,
-    onTimeUpdate,
     onLoadedMetadata,
+    onTimeUpdate,
     onLoadedData,
     onEnd,
     onError,
@@ -61,12 +59,11 @@ export const Player = (props: PlayerProps) => {
     onCanPlay,
     onFullscreenChange,
     getNodeElement,
-    mediaElement = 'video',
     volume: initialVolume = 1,
     keyboardControl
   } = props;
   const playerRef = useRef<HTMLDivElement>(document.createElement('div'));
-  const mediaRef = useRef<HTMLVideoElement | HTMLAudioElement>(document.createElement(mediaElement));
+  const mediaRef = useRef<HTMLVideoElement | HTMLAudioElement>(document.createElement('video'));
 
   /**
    * Media properties
@@ -102,12 +99,12 @@ export const Player = (props: PlayerProps) => {
    */
   const onEndCallback = useCallback((...args: unknown[]) => {
     setHasEnded(true);
-    onEnd(...args);
+    onEnd?.(...args);
   }, [ onEnd ]);
 
   const onTimeUpdateCallback = useCallback((...args: unknown[]) => {
     setCurrentTime(mediaRef.current.currentTime);
-    onTimeUpdate(...args);
+    onTimeUpdate?.(...args);
   }, [ onTimeUpdate ]);
 
   /**
@@ -199,7 +196,7 @@ export const Player = (props: PlayerProps) => {
     });
 
     const unsubscribeOnVolumeChange = listenToEvent(mediaElement, 'volumechange', (...args: unknown[]) => {
-      onVolumeChange(mediaElement.volume, ...args);
+      onVolumeChange?.(mediaElement.volume, ...args);
     });
 
     const unsubscribeOnDurationChange = listenToEvent(mediaElement, 'durationchange', () => {
