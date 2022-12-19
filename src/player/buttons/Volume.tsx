@@ -1,10 +1,7 @@
 import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useVideoPlayer } from '../hooks/useVideoPlayer';
-import VolumeDownRounded from '@mui/icons-material/VolumeDownRounded';
-import VolumeOffRounded from '@mui/icons-material/VolumeOffRounded';
-import VolumeUpRounded from '@mui/icons-material/VolumeUpRounded';
-import VolumeMuteRounded from '@mui/icons-material/VolumeMuteRounded';
+import { VolumeOff, Volume, Volume2, Volume3 } from 'tabler-icons-react';
 import { ButtonProps } from './types';
 import './buttons.scss';
 import './volume-button.scss';
@@ -33,22 +30,22 @@ export const VolumeButton = ({ size = 'medium' }: ButtonProps) => {
     }}>
       {
         positionOrVolume > 0 && positionOrVolume <= 0.2 && (
-          <VolumeMuteRounded />
+          <Volume3 />
         )
       }
       {
         positionOrVolume > 0.2 && positionOrVolume < 0.6 && (
-          <VolumeDownRounded />
+          <Volume2 />
         )
       }
       {
         positionOrVolume >= 0.6 && (
-          <VolumeUpRounded />
+          <Volume />
         )
       }
       {
         positionOrVolume === 0 && (
-          <VolumeOffRounded />
+          <VolumeOff />
         )
       }
     </div>

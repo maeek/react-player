@@ -1,7 +1,6 @@
 import React, { CSSProperties, RefObject } from 'react';
 import classNames from 'classnames';
-import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
-import PauseRounded from '@mui/icons-material/PauseRounded';
+import { PlayerPlay, PlayerPause } from 'tabler-icons-react';
 import { useVideoPlayer } from '../hooks/useVideoPlayer';
 import './renderer.scss';
 
@@ -60,8 +59,8 @@ export const VideoRenderer = ({ interactive, ...rest }: VideoRendererProps) => {
           <div className="ne-player-renderer-controls">
             {
               playing
-                ? <PlayArrowRounded className="ne-player-renderer-controls-icon" />
-                : <PauseRounded className="ne-player-renderer-controls-icon" />
+                ? <PlayerPlay className="ne-player-renderer-controls-icon" />
+                : <PlayerPause className="ne-player-renderer-controls-icon" />
             }
           </div>
         )

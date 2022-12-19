@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 // import { useVideoPlayer } from '../hooks/useVideoPlayer';
-import InfoRounded from '@mui/icons-material/InfoRounded';
+import { InfoCircle } from 'tabler-icons-react';
 import { ButtonProps } from './types';
 import './buttons.scss';
 
@@ -16,7 +16,7 @@ export const InfoButton = ({ size = 'medium', showLabel, labelPosition = 'bottom
 
   const btn = (
     <div className="ne-player-button-icon">
-      <InfoRounded />
+      <InfoCircle />
     </div>
   );
 

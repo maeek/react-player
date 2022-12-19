@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useVideoPlayer } from '../hooks/useVideoPlayer';
-import PauseRounded from '@mui/icons-material/PauseRounded';
-import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
+import { PlayerPause, PlayerPlay } from 'tabler-icons-react';
 import { ButtonProps } from './types';
 import './buttons.scss';
 
@@ -21,8 +20,8 @@ export const PlayButton = ({ size = 'medium' }: ButtonProps) => {
     <div className="ne-player-button-icon">
       {
         playing
-          ? <PauseRounded />
-          : <PlayArrowRounded />
+          ? <PlayerPause />
+          : <PlayerPlay />
       }
     </div>
   );

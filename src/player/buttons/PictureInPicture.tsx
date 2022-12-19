@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useVideoPlayer } from '../hooks/useVideoPlayer';
-import PictureInPictureRounded from '@mui/icons-material/PictureInPictureRounded';
+import { PictureInPicture } from 'tabler-icons-react';
 import { ButtonProps } from './types';
 import './buttons.scss';
 
@@ -16,7 +16,7 @@ export const PictureInPictureButton = ({ size = 'medium', showLabel, labelPositi
 
   const btn = (
     <div className="ne-player-button-icon">
-      <PictureInPictureRounded />
+      <PictureInPicture />
     </div>
   );
 

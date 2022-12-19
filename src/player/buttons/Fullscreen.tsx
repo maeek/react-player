@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useVideoPlayer } from '../hooks/useVideoPlayer';
-import FullscreenExitRounded from '@mui/icons-material/FullscreenExitRounded';
-import FullscreenRounded from '@mui/icons-material/FullscreenRounded';
+import { WindowMaximize, WindowMinimize } from 'tabler-icons-react';
 import { ButtonProps } from './types';
 import './buttons.scss';
 
@@ -19,8 +18,8 @@ export const FullscreenButton = ({ size = 'medium' }: ButtonProps) => {
     <div className="ne-player-button-icon">
       {
         isFullscreen
-          ? <FullscreenExitRounded />
-          : <FullscreenRounded />
+          ? <WindowMinimize />
+          : <WindowMaximize />
       }
     </div>
   );
