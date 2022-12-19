@@ -17,7 +17,7 @@ const useVolume = (mediaRef: RefObject<HTMLVideoElement | HTMLAudioElement>) => 
   const volume = useAppSelector(state => state.volume.volume, shallowEqual);
 
   useEffect(() => {
-    if (!mediaRef.current || !volume) return;
+    if (!mediaRef.current || volume === undefined || volume === null) return;
 
     mediaRef.current.volume = volume;
   }, [ mediaRef, volume ]);

@@ -1,10 +1,10 @@
 import React, { CSSProperties, RefObject } from 'react';
 import classNames from 'classnames';
 import { PlayerPlay, PlayerPause } from 'tabler-icons-react';
-import { usePlayer } from '../hooks/usePlayer';
-import { useAppSelector } from '../store/createStore';
-import { useMediaControls, usePlayerControls } from '../hooks';
-import './renderer.scss';
+import { usePlayer } from '../../hooks/usePlayer';
+import { useAppSelector } from '../../store/createStore';
+import { useMediaControls, usePlayerControls } from '../../hooks';
+import '../renderer.scss';
 
 export interface VideoRendererProps {
   interactive?: boolean;
@@ -38,7 +38,8 @@ export const VideoRenderer = ({ interactive, ...rest }: VideoRendererProps) => {
       className={classNames(
         'ne-player-renderer',
         videoAspectRatio && 'ne-player-renderer--aspect-ratio',
-        playing && 'ne-player-renderer--playing'
+        playing && 'ne-player-renderer--playing',
+        'ne-player-renderer--video'
       )}
       style={style}
       onClick={() => {
