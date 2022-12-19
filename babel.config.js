@@ -9,7 +9,6 @@ module.exports = {
     '@babel/preset-typescript'
   ],
   plugins: [
-    '@babel/plugin-transform-modules-commonjs',
     '@babel/plugin-transform-runtime'
   ]
 };
