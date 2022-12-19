@@ -1,12 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useVideoPlayer } from '../hooks/useVideoPlayer';
-import { WindowMaximize, WindowMinimize } from 'tabler-icons-react';
+import { Maximize, Minimize } from 'tabler-icons-react';
 import { ButtonProps } from './types';
+import { usePlayerControls } from '../hooks';
+import { useAppSelector } from '../store/createStore';
 import './buttons.scss';
 
 export const FullscreenButton = ({ size = 'medium' }: ButtonProps) => {
-  const { toggleFullscreen, isFullscreen } = useVideoPlayer();
+  const { toggleFullscreen } = usePlayerControls();
+  const isFullscreen = useAppSelector(state => state.config.fullscreen);
 
   const classes = classNames(
     'ne-player-button',
@@ -18,8 +20,8 @@ export const FullscreenButton = ({ size = 'medium' }: ButtonProps) => {
     <div className="ne-player-button-icon">
       {
         isFullscreen
-          ? <WindowMinimize />
-          : <WindowMaximize />
+          ? <Minimize />
+          : <Maximize />
       }
     </div>
   );

@@ -4,9 +4,10 @@ import { FullscreenButton, PictureInPictureButton, PlayButton, VolumeButton } fr
 import { InfoButton } from './buttons/Info';
 import { Controls, HeaderLeft, HeaderRight, LeftControls, RightControls } from './controls';
 import { Player as PlayerComponent, PlayerProps } from './Player';
-import { VideoRenderer } from './renderers/VideoRenderer';
+import { VideoRenderer } from './renderers/video/VideoRenderer';
 import { SeekBar } from './seekbar';
 import { Timestamp } from './timestamp';
+import { AudioRenderer } from './renderers/audio/AudioRenderer';
 
 export default {
   title: 'Player',
@@ -15,15 +16,19 @@ export default {
 
 const Template: Story<PlayerProps> = (args) => <div style={{ height: '1100px' }}><PlayerComponent {...args} /></div>;
 
-export const Player = Template.bind({});
-Player.args = {
+export const VideoPlayer = Template.bind({});
+VideoPlayer.args = {
   url: 'https://video.blender.org/download/videos/bf1f3fb5-b119-4f9f-9930-8e20e892b898-720.mp4',
   poster: 'https://static.suchanecki.me/jupiter.jpg',
+  tag: 'video',
   aspectRatio: '16:9',
   keyboardControl: true,
   children: (
     <>
-      <Controls renderer={<VideoRenderer interactive />} autohide>
+      <Controls renderers={{
+        video: <VideoRenderer interactive />,
+        audio: <AudioRenderer interactive />
+      }} autohide>
         <HeaderLeft>
           Titleeeeeee
         </HeaderLeft>
@@ -39,6 +44,35 @@ Player.args = {
         </LeftControls>
         <RightControls>
           <FullscreenButton size='medium' />
+        </RightControls>
+      </Controls>
+    </>
+  )
+};
+
+export const AudioPlayer = Template.bind({});
+AudioPlayer.args = {
+  url: 'https://foobar404.dev/Wave.js/assets/audio.mp3',
+  poster: 'https://static.suchanecki.me/jupiter.jpg',
+  tag: 'audio',
+  keyboardControl: true,
+  children: (
+    <>
+      <Controls renderers={{
+        video: <VideoRenderer interactive />,
+        audio: <AudioRenderer interactive visualizations />
+      }}>
+        <HeaderLeft>
+          Mc funky funky - Funky funky
+        </HeaderLeft>
+        <SeekBar />
+        <LeftControls>
+          <PlayButton size='medium' />
+          <VolumeButton size='medium' />
+          <Timestamp />
+        </LeftControls>
+        <RightControls>
+          <InfoButton size='medium' />
         </RightControls>
       </Controls>
     </>

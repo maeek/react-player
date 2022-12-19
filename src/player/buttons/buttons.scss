@@ -41,11 +41,9 @@
       background-position: center;
       background-size: contain;
       color: get-color('basic', 150);
-      fill: get-color('basic', 150);
 
       &:hover {
         color: get-color('basic', 100);
-        fill: get-color('basic', 100);
       }
     }
 

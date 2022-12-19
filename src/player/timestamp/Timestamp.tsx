@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
-import { useVideoPlayer } from '../hooks/useVideoPlayer';
+import { useAppSelector } from '../store/createStore';
 import './timestamp.scss';
 
 dayjs.extend(durationPlugin);
@@ -15,7 +15,8 @@ export interface TimestampProps {
 
 export const Timestamp = (props: TimestampProps) => {
   const { format = 'H:m:ss', className, style } = props;
-  const { currentTime, duration } = useVideoPlayer();
+  const currentTime = useAppSelector(state => state.media.currentTime)!;
+  const duration = useAppSelector(state => state.media.duration)!;
 
   const timestamp = dayjs.duration(currentTime * 1000).format(format).replace(/^(0:){1}/, '');
   const durationTime = useMemo(

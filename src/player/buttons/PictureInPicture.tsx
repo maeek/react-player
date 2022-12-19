@@ -1,12 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useVideoPlayer } from '../hooks/useVideoPlayer';
+import { usePlayer } from '../hooks/usePlayer';
 import { PictureInPicture } from 'tabler-icons-react';
 import { ButtonProps } from './types';
+import { useAppSelector } from '../store/createStore';
 import './buttons.scss';
 
 export const PictureInPictureButton = ({ size = 'medium', showLabel, labelPosition = 'bottom' }: ButtonProps) => {
-  const { mediaElement, canPlay } = useVideoPlayer();
+  const { mediaElement } = usePlayer();
+  const canPlay = useAppSelector(state => state.media.canPlay);
 
   const classes = classNames(
     'ne-player-button',

@@ -1,15 +1,19 @@
 import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { useVideoPlayer } from '../hooks/useVideoPlayer';
+import { usePlayer } from '../hooks/usePlayer';
 import { VolumeOff, Volume, Volume2, Volume3 } from 'tabler-icons-react';
 import { ButtonProps } from './types';
 import './buttons.scss';
 import './volume-button.scss';
 import throttle from 'lodash.throttle';
+import { useAppDispatch, useAppSelector } from '../store/createStore';
+import { mute, setVolume, unmute } from '../store/slices/volume';
 
 export const VolumeButton = ({ size = 'medium' }: ButtonProps) => {
+  const dispatch = useAppDispatch();
   const seekBarRef = useRef<HTMLDivElement>(null);
-  const { volume, setVolume, mediaElement } = useVideoPlayer();
+  const { mediaElement } = usePlayer();
+  const volume = useAppSelector(state => state.volume.volume ?? 1);
   const [ isMoving, setIsMoving ] = useState(false);
   const [ position, setPosition ] = useState<number | null>(null);
   const setVolThrottled = useRef(throttle((pos) => {
@@ -26,7 +30,12 @@ export const VolumeButton = ({ size = 'medium' }: ButtonProps) => {
   const positionOrVolume = position ?? volume;
   const btn = (
     <div className="ne-player-button-icon" onClick={() => {
-      setVolume(positionOrVolume === 0 ? 1 : 0);
+      if (volume === 0) {
+        dispatch(unmute(null));
+      } else {
+        dispatch(mute(null));
+      }
+      // dispatch(setVolume(positionOrVolume === 0 ? 1 : 0));
     }}>
       {
         positionOrVolume > 0 && positionOrVolume <= 0.2 && (
@@ -73,7 +82,7 @@ export const VolumeButton = ({ size = 'medium' }: ButtonProps) => {
 
     const onMouseUp = () => {
       setIsMoving(false);
-      setVolume(position || 0);
+      dispatch(setVolume(position || 0));
       setPosition(null);
     };
     window.addEventListener('mouseup', onMouseUp);
@@ -83,7 +92,7 @@ export const VolumeButton = ({ size = 'medium' }: ButtonProps) => {
       window.removeEventListener('mouseup', onMouseUp);
       window.removeEventListener('mousemove', calculateVolume);
     };
-  }, [ isMoving, calculateVolume, setVolume, position ]);
+  }, [ isMoving, calculateVolume, position, dispatch ]);
 
   return (
     <button className={classes}>

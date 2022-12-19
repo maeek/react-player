@@ -1,12 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useVideoPlayer } from '../hooks/useVideoPlayer';
 import { PlayerPause, PlayerPlay } from 'tabler-icons-react';
 import { ButtonProps } from './types';
+import { useMediaControls } from '../hooks';
+import { useAppSelector } from '../store/createStore';
 import './buttons.scss';
 
 export const PlayButton = ({ size = 'medium' }: ButtonProps) => {
-  const { playing, stalled, play } = useVideoPlayer();
+  const { play } = useMediaControls();
+  const playing = useAppSelector(state => state.media.playing);
+  const stalled = useAppSelector(state => state.media.stalled);
 
   const classes = classNames(
     'ne-player-button',

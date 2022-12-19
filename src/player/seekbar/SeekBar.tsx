@@ -1,11 +1,16 @@
 import React, { CSSProperties, MouseEventHandler, MutableRefObject, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useSwipeable } from 'react-swipeable';
-import { useVideoPlayer } from '../hooks/useVideoPlayer';
+import { useAppSelector } from '../store/createStore';
+import { useMediaControls } from '../hooks';
 import './seekbar.scss';
 
 export const SeekBar = () => {
-  const { currentTime, duration, buffered, seek, seeking } = useVideoPlayer();
+  const currentTime = useAppSelector(state => state.media.currentTime)!;
+  const duration = useAppSelector(state => state.media.duration)!;
+  const seeking = useAppSelector(state => state.media.seeking);
+  const buffered = useAppSelector(state => state.media.buffered);
+  const { seek } = useMediaControls();
   const [ isSeeking, setIsSeeking ] = useState(false);
   const [ seekingPos, setSeekingPos ] = useState(0);
   const seekBarRef = useRef<HTMLDivElement>(null);
@@ -72,6 +77,9 @@ export const SeekBar = () => {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     const seekPos = (e: MouseEvent) => {
       if (!seekBarRef.current) return;
 
@@ -107,14 +115,12 @@ export const SeekBar = () => {
       seekPos(e);
     };
 
-    document.addEventListener('mousedown', startSeeking);
-    document.addEventListener('mouseup', stopSeeking);
-    document.addEventListener('mousemove', seeking);
+    document.addEventListener('mousedown', startSeeking, { signal });
+    document.addEventListener('mouseup', stopSeeking, { signal });
+    document.addEventListener('mousemove', seeking, { signal });
 
     return () => {
-      document.removeEventListener('mousedown', startSeeking);
-      document.removeEventListener('mouseup', stopSeeking);
-      document.removeEventListener('mousemove', seeking);
+      abortController.abort();
     };
   }, [ duration, isSeeking, seek ]);
 

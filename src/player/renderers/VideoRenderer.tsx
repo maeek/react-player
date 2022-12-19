@@ -1,7 +1,9 @@
 import React, { CSSProperties, RefObject } from 'react';
 import classNames from 'classnames';
 import { PlayerPlay, PlayerPause } from 'tabler-icons-react';
-import { useVideoPlayer } from '../hooks/useVideoPlayer';
+import { usePlayer } from '../hooks/usePlayer';
+import { useAppSelector } from '../store/createStore';
+import { useMediaControls, usePlayerControls } from '../hooks';
 import './renderer.scss';
 
 export interface VideoRendererProps {
@@ -11,13 +13,14 @@ export interface VideoRendererProps {
 export const VideoRenderer = ({ interactive, ...rest }: VideoRendererProps) => {
   const {
     mediaElement,
-    mediaProps,
-    videoAspectRatio,
-    dimensions,
-    playing,
-    play,
-    toggleFullscreen
-  } = useVideoPlayer();
+    videoAspectRatio
+  } = usePlayer();
+  const { play } = useMediaControls();
+  const { toggleFullscreen } = usePlayerControls();
+  const dimensions = useAppSelector(state => state.video.dimensions);
+  const playing = useAppSelector(state => state.media.playing);
+  const autoPlay = useAppSelector(state => state.media.autoPlay);
+  const preload = useAppSelector(state => state.media.preload);
 
   const style = videoAspectRatio || dimensions
     ? {
@@ -51,7 +54,7 @@ export const VideoRenderer = ({ interactive, ...rest }: VideoRendererProps) => {
         }
       }}
     >
-      <video ref={mediaElement as RefObject<HTMLVideoElement>} {...mediaProps} {...rest}>
+      <video ref={mediaElement as RefObject<HTMLVideoElement>} autoPlay={autoPlay} preload={preload} {...rest}>
         Your browser does not support the video tag.
       </video>
       {

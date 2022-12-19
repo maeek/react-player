@@ -1,14 +1,21 @@
 import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
-import { useVideoPlayer } from '../hooks/useVideoPlayer';
+import { usePlayer } from '../hooks/usePlayer';
 import { filterComponents } from '../../utils/filterComponents';
 import { SeekBar } from '../seekbar';
+import { useAppDispatch, useAppSelector } from '../store/createStore';
+import { setControlsHidden } from '../store/slices/config';
 import './controls.scss';
+
+export interface Renderers {
+  audio?: ReactNode;
+  video?: ReactNode;
+}
 
 export interface ControlsProps {
   children?: ReactElement | ReactElement[];
-  renderer?: ReactNode;
+  renderers?: Renderers;
   autohide?: boolean;
 }
 
@@ -25,13 +32,18 @@ export const HeaderRight = ({ children }: { children: ReactNode}) => (
   <>{children}</>
 );
 
-export const Controls = ({ children, renderer, autohide }: ControlsProps) => {
-  const { playerElement, playing, controlsHidden, hideControls, seeking } = useVideoPlayer();
+export const Controls = ({ children, renderers, autohide }: ControlsProps) => {
+  const dispatch = useAppDispatch();
+  const { playerElement } = usePlayer();
+  const seeking = useAppSelector(state => state.media.seeking);
+  const playing = useAppSelector(state => state.media.playing);
+  const controlsHidden = useAppSelector(state => state.config.controlsHidden);
+  const type = useAppSelector(state => state.config.type);
   const [ isHovering, setIsHovering ] = useState(false);
   const [ wasSeeking, setWasSeeking ] = useState(false);
 
   const hideTimeout = useRef(debounce(() => {
-    hideControls(true);
+    dispatch(setControlsHidden(true));
     setIsHovering(false);
   }, 2500, { leading: false, trailing: true }));
 
@@ -59,9 +71,12 @@ export const Controls = ({ children, renderer, autohide }: ControlsProps) => {
     const element = playerElement.current;
     let debFunc: { cancel: () => void } | void;
 
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     const handleMouseMove = (e: MouseEvent) => {
       if (autohide && (e.target === element || element?.contains(e.target as Node))) {
-        hideControls(false);
+        if (controlsHidden) dispatch(setControlsHidden(false));
         setIsHovering(true);
         debFunc = hideTimeout.current();
       } else {
@@ -72,25 +87,22 @@ export const Controls = ({ children, renderer, autohide }: ControlsProps) => {
 
     const handleMouseStop = () => {
       if (autohide) {
-        hideControls(true);
+        dispatch(setControlsHidden(true));
         setIsHovering(false);
         debFunc?.cancel();
       }
     };
 
     if (element) {
-      element.addEventListener('mousemove', handleMouseMove);
-      element.addEventListener('mouseleave', handleMouseStop);
+      element.addEventListener('mousemove', handleMouseMove, { signal });
+      element.addEventListener('mouseleave', handleMouseStop, { signal });
     }
 
     return () => {
-      if (element) {
-        element.removeEventListener('mousemove', handleMouseMove);
-        element.removeEventListener('mouseleave', handleMouseStop);
-      }
+      abortController.abort();
       debFunc?.cancel();
     };
-  }, [ autohide, hideControls, playerElement ]);
+  }, [ autohide, controlsHidden, dispatch, playerElement ]);
 
   return (
     <div className={classNames('ne-player-controls', {
@@ -98,7 +110,13 @@ export const Controls = ({ children, renderer, autohide }: ControlsProps) => {
       'ne-player-controls--seeking': seeking
     })}>
       {(headerLeft || headerRight) && (
-        <div className='ne-player-controls-header'>
+        <div className={
+          classNames(
+            'ne-player-controls-header', {
+              'ne-player-controls-header--audio': type === 'audio'
+            }
+          )
+        }>
           <div className="ne-player-controls-header-content">
             {headerLeft}
           </div>
@@ -107,13 +125,19 @@ export const Controls = ({ children, renderer, autohide }: ControlsProps) => {
           </div>
         </div>
       )}
-      {renderer && (
+      {renderers && renderers[ type! ] && (
         <div className='ne-player-controls-renderer'>
-          {renderer}
+          {renderers[ type! ]}
         </div>
       )}
       <div className="ne-player-controls-content-mask"></div>
-      <div className="ne-player-controls-content">
+      <div className={
+        classNames(
+          'ne-player-controls-content', {
+            'ne-player-controls-content--audio': type === 'audio'
+          }
+        )
+      }>
         {seekBar}
         <div className="ne-player-controls-content-wrapper">
           <div

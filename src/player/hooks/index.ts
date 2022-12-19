@@ -1,3 +1,4 @@
 export * from './useControls';
-export * from './useStats';
-export * from './useVideoPlayer';
+export * from './usePlayer';
+export * from './useSynchronizeWithPlayer';
+export * from './useVisibility';

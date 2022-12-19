@@ -1,13 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-// import { useVideoPlayer } from '../hooks/useVideoPlayer';
 import { InfoCircle } from 'tabler-icons-react';
 import { ButtonProps } from './types';
 import './buttons.scss';
 
 export const InfoButton = ({ size = 'medium', showLabel, labelPosition = 'bottom' }: ButtonProps) => {
-  // const { videoPlaybackQuality } = useVideoPlayer();
-
   const classes = classNames(
     'ne-player-button',
     `ne-player-button--${size}`,
