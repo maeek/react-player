@@ -2,7 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 import { FullscreenButton, PictureInPictureButton, PlayButton, VolumeButton } from './buttons/';
 import { InfoButton } from './buttons/Info';
-import { DefaultControls, HeaderLeft, HeaderRight, LeftControls, RightControls } from './controls';
+import { DefaultLayout, HeaderLeft, HeaderRight, LeftControls, RightControls } from './controls';
 import { Player as PlayerComponent, PlayerProps } from './Player';
 import { VideoRenderer } from './renderers/video/VideoRenderer';
 import { SeekBar } from './seekbar';
@@ -25,7 +25,7 @@ VideoPlayer.args = {
   keyboardControl: true,
   children: (
     <>
-      <DefaultControls renderers={{
+      <DefaultLayout renderers={{
         video: <VideoRenderer interactive />,
         audio: <AudioRenderer interactive />
       }} autohide>
@@ -45,7 +45,7 @@ VideoPlayer.args = {
         <RightControls>
           <FullscreenButton size='medium' />
         </RightControls>
-      </DefaultControls>
+      </DefaultLayout>
     </>
   )
 };
@@ -58,7 +58,7 @@ AudioPlayer.args = {
   keyboardControl: true,
   children: (
     <>
-      <DefaultControls renderers={{
+      <DefaultLayout renderers={{
         video: <VideoRenderer interactive />,
         audio: <AudioRenderer interactive visualizations />
       }}>
@@ -74,7 +74,7 @@ AudioPlayer.args = {
         <RightControls>
           <InfoButton size='medium' />
         </RightControls>
-      </DefaultControls>
+      </DefaultLayout>
     </>
   )
 };

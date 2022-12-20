@@ -32,7 +32,7 @@ export const HeaderRight = ({ children }: { children: ReactNode}) => (
   <>{children}</>
 );
 
-export const DefaultControls = ({ children, renderers, autohide }: ControlsProps) => {
+export const DefaultLayout = ({ children, renderers, autohide }: ControlsProps) => {
   const dispatch = useAppDispatch();
   const { playerElement } = usePlayer();
   const seeking = useAppSelector(state => state.media.seeking);
