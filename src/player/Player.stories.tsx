@@ -53,7 +53,7 @@ VideoPlayer.args = {
 export const AudioPlayer = Template.bind({});
 AudioPlayer.args = {
   url: 'https://foobar404.dev/Wave.js/assets/audio.mp3',
-  poster: 'https://static.suchanecki.me/jupiter.jpg',
+  poster: 'https://static.suchanecki.me/nasa.jpg',
   tag: 'audio',
   keyboardControl: true,
   children: (

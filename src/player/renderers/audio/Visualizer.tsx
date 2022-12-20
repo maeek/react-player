@@ -4,6 +4,9 @@ import { usePlayer } from '../../hooks';
 import { useAppSelector } from '../../store/createStore';
 import './visualizer.scss';
 
+// FFT_SIZE must be a power of 2
+const FFT_SIZE = 256;
+
 export const Visualizer = () => {
   const { mediaElement } = usePlayer();
   const playing = useAppSelector(state => state.media.playing);
@@ -23,7 +26,7 @@ export const Visualizer = () => {
 
     //connect analyser to source
     const anl = ctx.createAnalyser();
-    anl.fftSize = 1024;
+    anl.fftSize = FFT_SIZE;
     setAnalyser(anl);
     src.connect(anl);
     anl.connect(ctx.destination);

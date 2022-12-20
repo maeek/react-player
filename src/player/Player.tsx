@@ -45,7 +45,6 @@ const withPlayerStore = (Component: React.ComponentType<PlayerProps>) => (props:
   const { aspectRatio, forceAspectRatio, tag } = props;
   const playerRef = useRef<HTMLDivElement>(document.createElement('div'));
   const mediaRef = useRef<HTMLVideoElement | HTMLAudioElement>(document.createElement(tag || 'video'));
-  mediaRef.current.crossOrigin = 'anonymous';
 
   /**
    * Derivative values
