@@ -197,4 +197,5 @@ export const useLifecycle = ({
     mediaRef,
     playerRef
   ]);
+
 };

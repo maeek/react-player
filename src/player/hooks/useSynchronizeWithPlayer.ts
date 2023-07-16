@@ -2,6 +2,7 @@ import { RefObject, useDebugValue, useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../store/createStore';
 import { setPlaybackQuality } from '../store/slices/video';
+import { setIsOffline } from '../store/slices/config';
 
 const usePlaybackRate = (mediaRef: RefObject<HTMLVideoElement | HTMLAudioElement>) => {
   const playbackRate = useAppSelector(state => state.media.playbackRate, shallowEqual);
@@ -63,12 +64,26 @@ const useUpdatePlaybackQuality = (mediaRef: RefObject<HTMLVideoElement | HTMLAud
   }, [ mediaRef, currentTime, dispatch ]);
 };
 
+const useIsOffline = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    window.addEventListener('offline', () => {
+      dispatch(setIsOffline(true));
+    });
+    window.addEventListener('online', () => {
+      dispatch(setIsOffline(false));
+    });
+  }, [ dispatch ]);
+};
+
 export const useSynchronizeWithPlayer = (mediaRef: RefObject<HTMLVideoElement | HTMLAudioElement>) => {
   usePlaybackRate(mediaRef);
   useVolume(mediaRef);
   useAutoPlay(mediaRef);
   usePreload(mediaRef);
   useUpdatePlaybackQuality(mediaRef);
+  useIsOffline();
 
   useDebugValue('useSynchronizeWithPlayer');
 };

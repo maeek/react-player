@@ -1,7 +1,7 @@
 import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { usePlayer } from '../hooks/usePlayer';
-import { VolumeOff, Volume, Volume2, Volume3 } from 'tabler-icons-react';
+import { VolumeOff, Volume, Volume2 } from 'tabler-icons-react';
 import { ButtonProps } from './types';
 import './buttons.scss';
 import './volume-button.scss';
@@ -35,15 +35,9 @@ export const VolumeButton = ({ size = 'medium' }: ButtonProps) => {
       } else {
         dispatch(mute(null));
       }
-      // dispatch(setVolume(positionOrVolume === 0 ? 1 : 0));
     }}>
       {
-        positionOrVolume > 0 && positionOrVolume <= 0.2 && (
-          <Volume3 />
-        )
-      }
-      {
-        positionOrVolume > 0.2 && positionOrVolume < 0.6 && (
+        positionOrVolume > 0 && positionOrVolume < 0.6 && (
           <Volume2 />
         )
       }

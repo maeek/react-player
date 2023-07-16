@@ -38,11 +38,8 @@ const mediaSlice = createSlice({
   name: 'media',
   initialState,
   reducers: {
-    setCurrentTime: {
-      reducer: (state, action: PayloadAction<MediaState['currentTime']>) => {
-        state.currentTime = action.payload;
-      },
-      prepare: prepareAutoBatched<MediaState['currentTime']>()
+    setCurrentTime: (state, action: PayloadAction<MediaState['currentTime']>) => {
+      state.currentTime = action.payload;
     },
     setDuration: {
       reducer: (state, action: PayloadAction<MediaState['duration']>) => {

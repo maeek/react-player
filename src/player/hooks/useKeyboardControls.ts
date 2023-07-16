@@ -31,6 +31,10 @@ const useSeekShortcuts = () => {
         event.preventDefault();
         seek((parseInt(event.key) / 10) * duration);
       }
+      if ([ ',', '.' ].includes(event.key) && duration !== null && currentTime !== null) {
+        event.preventDefault();
+        seek(currentTime + (event.key === '.' ? 1 : -1) / 30);
+      }
     };
 
     document.addEventListener('keydown', onKeyDown, { signal });

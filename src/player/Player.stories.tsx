@@ -8,6 +8,7 @@ import { VideoRenderer } from './renderers/video/VideoRenderer';
 import { SeekBar } from './seekbar';
 import { Timestamp } from './timestamp';
 import { AudioRenderer } from './renderers/audio/AudioRenderer';
+import { QualitySelector } from './buttons/QualitySelector';
 
 export default {
   title: 'Player',
@@ -19,10 +20,28 @@ const Template: Story<PlayerProps> = (args) => <div style={{ height: '1100px' }}
 export const VideoPlayer = Template.bind({});
 VideoPlayer.args = {
   url: 'https://video.blender.org/download/videos/bf1f3fb5-b119-4f9f-9930-8e20e892b898-720.mp4',
+  qualities: [
+    {
+      url: 'https://video.blender.org/download/videos/bf1f3fb5-b119-4f9f-9930-8e20e892b898-720.mp4',
+      quality: '720p'
+    },
+    {
+      url: 'https://video.blender.org/download/videos/bf1f3fb5-b119-4f9f-9930-8e20e892b898-480.mp4',
+      quality: '480p'
+    },
+    {
+      url: 'https://video.blender.org/download/videos/bf1f3fb5-b119-4f9f-9930-8e20e892b898-360.mp4',
+      quality: '360p'
+    },
+    {
+      url: 'https://video.blender.org/download/videos/bf1f3fb5-b119-4f9f-9930-8e20e892b898-240.mp4',
+      quality: '240p'
+    }
+  ],
   poster: 'https://static.suchanecki.me/jupiter.jpg',
   tag: 'video',
   aspectRatio: '16:9',
-  keyboardControl: true,
+  keyboardShortcuts: true,
   children: (
     <>
       <DefaultLayout renderers={{
@@ -43,6 +62,7 @@ VideoPlayer.args = {
           <Timestamp />
         </LeftControls>
         <RightControls>
+          <QualitySelector />
           <FullscreenButton size='medium' />
         </RightControls>
       </DefaultLayout>
@@ -52,7 +72,7 @@ VideoPlayer.args = {
 
 export const AudioPlayer = Template.bind({});
 AudioPlayer.args = {
-  url: 'https://foobar404.dev/Wave.js/assets/audio.mp3',
+  url: 'https://static.suchanecki.me/audio.mp3',
   poster: 'https://static.suchanecki.me/nasa.jpg',
   tag: 'audio',
   keyboardControl: true,

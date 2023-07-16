@@ -15,6 +15,7 @@ export interface PlayerContextType {
 }
 
 export const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
+PlayerContext.displayName = 'PlayerConsumer';
 
 export const PlayerProvider = PlayerContext.Provider;
 export const PlayerConsumer = PlayerContext.Consumer;

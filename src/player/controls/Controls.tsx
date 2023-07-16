@@ -38,6 +38,7 @@ export const DefaultLayout = ({ children, renderers, autohide }: ControlsProps) 
   const seeking = useAppSelector(state => state.media.seeking);
   const playing = useAppSelector(state => state.media.playing);
   const controlsHidden = useAppSelector(state => state.config.controlsHidden);
+  const supressControlsFade = useAppSelector(state => state.config.supressControlsFade);
   const type = useAppSelector(state => state.config.type);
   const [ isHovering, setIsHovering ] = useState(false);
   const [ wasSeeking, setWasSeeking ] = useState(false);
@@ -104,9 +105,16 @@ export const DefaultLayout = ({ children, renderers, autohide }: ControlsProps) 
     };
   }, [ autohide, controlsHidden, dispatch, playerElement ]);
 
+  const controlsHiddenState = playing
+    && autohide
+    && controlsHidden
+    && !supressControlsFade
+    && !isHovering
+    && !wasSeeking;
+
   return (
     <div className={classNames('ne-player-controls', {
-      'ne-player-controls--hidden': playing && autohide && controlsHidden && !isHovering && !wasSeeking,
+      'ne-player-controls--hidden': controlsHiddenState,
       'ne-player-controls--seeking': seeking
     })}>
       {(headerLeft || headerRight) && (

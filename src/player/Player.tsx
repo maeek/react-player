@@ -5,7 +5,15 @@ import store, { useAppDispatch } from './store/createStore';
 import { setAutoPlay, setPlaybackRate, setPreload } from './store/slices/media';
 import { useLifecycle } from './hooks/useLifecycle';
 import { useSynchronizeWithPlayer } from './hooks/useSynchronizeWithPlayer';
-import { setControls, setKeyboardShortcuts, setPoster, setType, setUrl } from './store/slices/config';
+import {
+  Quality,
+  setControls,
+  setKeyboardShortcuts,
+  setPoster,
+  setQualities,
+  setType,
+  setUrl
+} from './store/slices/config';
 import { useKeyboardShortcuts } from './hooks/useKeyboardControls';
 import { useVisibility } from './hooks/useVisibility';
 import { setVolume } from './store/slices/volume';
@@ -16,6 +24,10 @@ import './player.scss';
 export interface PlayerProps {
   children: React.ReactNode;
   url: string;
+  qualities?: {
+    url: Quality['url'];
+    quality: Quality['quality'];
+  }[];
   tag?: 'video' | 'audio';
   autoPlay?: boolean;
   preload?: 'none' | 'metadata' | 'auto';
@@ -80,6 +92,7 @@ export const Player = withPlayerStore((props: PlayerProps) => {
   const {
     children,
     url,
+    qualities,
     autoPlay = false,
     preload,
     controls,
@@ -140,6 +153,11 @@ export const Player = withPlayerStore((props: PlayerProps) => {
 
     dispatch(setVolume(newVolume));
   }, [ dispatch, initialVolume ]);
+
+  // Update internal url from props
+  useEffect(() => {
+    dispatch(setQualities(qualities || []));
+  }, [ dispatch, qualities ]);
 
   // Update internal url from props
   useEffect(() => {
