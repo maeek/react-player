@@ -15,17 +15,26 @@ const logger: Middleware = store => next => action => {
 };
 /* eslint-enable */
 
-export const store = configureStore({
-  reducer: rootReducer,
-  devTools: process.env.NODE_ENV !== 'production',
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat();
-  },
-  enhancers: (existingEnhancers) => {
-    // Add the autobatch enhancer to the store setup
-    return existingEnhancers.concat(autoBatchEnhancer({ type: 'tick' }));
-  }
-});
+export const createPlayerStore = (type: 'video' | 'audio' = 'video') => {
+  const initialState = rootReducer(undefined, { type: '@@INIT' });
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState: {
+      ...initialState,
+      config: { ...initialState.config, type }
+    },
+    devTools: process.env.NODE_ENV !== 'production',
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware().concat();
+    },
+    enhancers: (existingEnhancers) => {
+      // Add the autobatch enhancer to the store setup
+      return existingEnhancers.concat(autoBatchEnhancer({ type: 'tick' }));
+    }
+  });
+};
+
+export const store = createPlayerStore();
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();

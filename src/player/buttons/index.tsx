@@ -3,3 +3,4 @@ export * from './Play';
 export * from './Fullscreen';
 export * from './Volume';
 export * from './PictureInPicture';
+export * from './QualitySelector';

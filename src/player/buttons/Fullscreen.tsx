@@ -27,9 +27,10 @@ export const FullscreenButton = ({ size = 'medium' }: ButtonProps) => {
   );
 
   return (
-    <button className={classes} onClick={() => {
-      toggleFullscreen();
-    }}>
+    <button type='button' aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+      className={classes} onClick={() => {
+        toggleFullscreen();
+      }}>
       {btn}
     </button>
   );

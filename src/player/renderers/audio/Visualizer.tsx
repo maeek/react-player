@@ -30,6 +30,13 @@ export const Visualizer = () => {
     setAnalyser(anl);
     src.connect(anl);
     anl.connect(ctx.destination);
+
+    const media = mediaElement.current!;
+    const resumeAudio = () => { void ctx.resume(); };
+    media.addEventListener('play', resumeAudio);
+    return () => {
+      media.removeEventListener('play', resumeAudio);
+    };
   }, [ mediaElement ]);
 
   useEffect(() => {

@@ -89,7 +89,7 @@ export const VolumeButton = ({ size = 'medium' }: ButtonProps) => {
   }, [ isMoving, calculateVolume, position, dispatch ]);
 
   return (
-    <button className={classes}>
+    <button type='button' aria-label='Volume' className={classes}>
       {btn}
       <div
         className="ne-player-button-volume-slider"

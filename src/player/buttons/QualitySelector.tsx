@@ -63,6 +63,8 @@ export const QualitySelector = ({ size = 'medium' }) => {
     <div className="ne-player-quality-selector" ref={ref}>
       <button
         className={classes}
+        aria-label='Video quality'
+        aria-expanded={isOpen}
         onClick={onSettingsClick}
         tabIndex={0}
         type='button'

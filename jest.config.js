@@ -21,8 +21,8 @@ module.exports = {
   ],
   clearMocks: true,
   coverageDirectory: 'coverage',
-  setupFilesAfterEnv: ['./src/setup-tests.ts'],
+  testEnvironment: 'jsdom',
   moduleNameMapper: {
-    '\\.(css|scss)$': '<rootDir>/src/test/styles.mock.js',
+    '\\.(css|scss)$': '<rootDir>/scripts/style.mock.js',
   }
 };

@@ -29,7 +29,7 @@ export const PictureInPictureButton = ({ size = 'medium', showLabel, labelPositi
   );
 
   return canPlay ? (
-    <button className={classes} onClick={() => {
+    <button type='button' aria-label='Picture in picture' className={classes} onClick={() => {
       if (mediaElement.current instanceof HTMLVideoElement) {
         mediaElement.current.requestPictureInPicture();
       }

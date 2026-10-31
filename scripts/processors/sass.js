@@ -22,7 +22,8 @@ const processScss = (rootPath) => {
   const relativePath = util.getRelativePath(rootPath);
   
   // Do not process scss _partials as entry files
-  const cssFilesToProcess = cssFiles.filter(file => !file.startsWith('_'));
+  const productionCssFiles = util.filterNonProductionFiles(cssFiles);
+  const cssFilesToProcess = productionCssFiles.filter(file => !file.startsWith('_'));
   
   cssFilesToProcess.forEach(async (file) => {
     const filePath = path.resolve(fullPath, file);
@@ -58,7 +59,7 @@ const processScss = (rootPath) => {
   });  
 
   // Copy original scss files to components folder
-  cssFiles.forEach((file) => {
+  productionCssFiles.forEach((file) => {
     util.copyFiles([ path.resolve(fullPath, file) ], path.join(outDir, relativePath, appendPath));
   });
 };

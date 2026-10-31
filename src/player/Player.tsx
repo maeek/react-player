@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PlayerContextType, PlayerProvider } from './context';
 import { Provider } from 'react-redux';
-import store, { useAppDispatch } from './store/createStore';
+import { createPlayerStore, useAppDispatch } from './store/createStore';
 import { setAutoPlay, setPlaybackRate, setPreload } from './store/slices/media';
 import { useLifecycle } from './hooks/useLifecycle';
 import { useSynchronizeWithPlayer } from './hooks/useSynchronizeWithPlayer';
@@ -54,7 +54,8 @@ export interface PlayerProps {
 
 // eslint-disable-next-line react/display-name
 const withPlayerStore = (Component: React.ComponentType<PlayerProps>) => (props: PlayerProps) => {
-  const { aspectRatio, forceAspectRatio, tag } = props;
+  const { aspectRatio, forceAspectRatio, tag = 'video' } = props;
+  const [ store ] = useState(() => createPlayerStore(tag));
   const playerRef = useRef<HTMLDivElement>(document.createElement('div'));
   const mediaRef = useRef<HTMLVideoElement | HTMLAudioElement>(document.createElement(tag || 'video'));
 
@@ -96,7 +97,7 @@ export const Player = withPlayerStore((props: PlayerProps) => {
     autoPlay = false,
     preload,
     controls,
-    tag,
+    tag = 'video',
     poster,
     playbackRate,
     onLoadedMetadata,
@@ -132,7 +133,7 @@ export const Player = withPlayerStore((props: PlayerProps) => {
     onCanPlay,
     onFullscreenChange
   });
-  useVisibility(mediaRef);
+  useVisibility(playerRef);
 
   useEffect(() => {
     getNodeElement?.(mediaRef.current!);

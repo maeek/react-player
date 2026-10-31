@@ -2,7 +2,7 @@ import { RefObject, useDebugValue, useEffect } from 'react';
 import { useAppDispatch } from '../store/createStore';
 import { setVisible } from '../store/slices/config';
 
-export const useVisibility = (mediaRef: RefObject<HTMLVideoElement | HTMLAudioElement>) => {
+export const useVisibility = (mediaRef: RefObject<HTMLElement>) => {
   const dispatch = useAppDispatch();
 
   useDebugValue('useVisibility');

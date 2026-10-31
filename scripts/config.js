@@ -14,7 +14,8 @@ const config = {
     /.*\.d\.ts/,
     /.*\.stories\..*/,
     /.*\.test\..*/,
-    /.*\.mock\..*/
+    /.*\.mock\..*/,
+    /^demo\.scss$/
   ],
   babelConfig: babelCfg,
   sass: {},

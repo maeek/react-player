@@ -30,7 +30,7 @@ export const PlayButton = ({ size = 'medium' }: ButtonProps) => {
   );
 
   return (
-    <button className={classes} onClick={() => {
+    <button type='button' aria-label={playing ? 'Pause' : 'Play'} className={classes} onClick={() => {
       if (stalled) return;
 
       play(!playing);

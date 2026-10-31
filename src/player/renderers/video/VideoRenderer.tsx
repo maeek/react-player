@@ -21,6 +21,7 @@ export const VideoRenderer = ({ interactive, ...rest }: VideoRendererProps) => {
   const playing = useAppSelector(state => state.media.playing);
   const autoPlay = useAppSelector(state => state.media.autoPlay);
   const preload = useAppSelector(state => state.media.preload);
+  const poster = useAppSelector(state => state.config.poster);
 
   const style = videoAspectRatio || dimensions
     ? {
@@ -55,7 +56,8 @@ export const VideoRenderer = ({ interactive, ...rest }: VideoRendererProps) => {
         }
       }}
     >
-      <video ref={mediaElement as RefObject<HTMLVideoElement>} autoPlay={autoPlay} preload={preload} {...rest}>
+      <video ref={mediaElement as RefObject<HTMLVideoElement>} autoPlay={autoPlay} preload={preload}
+        poster={poster} playsInline {...rest}>
         Your browser does not support the video tag.
       </video>
       {
